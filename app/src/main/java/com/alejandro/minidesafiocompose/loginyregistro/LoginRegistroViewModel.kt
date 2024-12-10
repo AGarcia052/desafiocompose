@@ -1,8 +1,8 @@
 package com.alejandro.minidesafiocompose.loginyregistro
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.alejandro.minidesafiocompose.Colecciones
 import com.alejandro.minidesafiocompose.modelo.Usuario
@@ -14,11 +14,11 @@ class LoginRegistroViewModel: ViewModel() {
     var db = Firebase.firestore
     var TAG = "Alejandro"
 
-    private val _resLogin = MutableLiveData<Usuario>()
-    val resLogin: LiveData<Usuario> = _resLogin
+    private val _usuario = mutableStateOf<Usuario?>(null)
+    val usuario get() = _usuario
 
 
-    fun login(correo: String, passwd: String) {
+    fun obtenerUsuario(correo: String) {
         var usuario: Usuario
         db.collection(Colecciones.usuarios)
             .document(correo)
@@ -28,10 +28,10 @@ class LoginRegistroViewModel: ViewModel() {
                     usuario = Usuario(
                         nombre = documento.getString("nombre").orEmpty(),
                         correo = documento.id,
-                        edad = (documento["edad"] as? Long)?.toInt() ?: 0,
+                        edad = (documento.get("edad") as? Long)?.toInt() ?: 0,
                         passwd = documento.getString("passwd").orEmpty()
                     )
-                    _resLogin.value = usuario
+                    _usuario.value = usuario
                     Log.i(TAG,"Datos obtenidos: $usuario")
 
                 }catch (e: Exception){
@@ -39,6 +39,9 @@ class LoginRegistroViewModel: ViewModel() {
                     null
                 }
 
+            }
+            .addOnFailureListener {
+                Log.e(TAG,"Error al obtener datos", it)
             }
     }
 

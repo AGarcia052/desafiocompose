@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.alejandro.minidesafiocompose"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.alejandro.minidesafiocompose"

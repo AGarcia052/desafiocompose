@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.alejandro.minidesafiocompose.loginyregistro.Login
+import com.alejandro.minidesafiocompose.loginyregistro.Registro
 import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,10 +20,10 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = Rutas.login) {
                     composable(Rutas.login) {
-                        //Login(navController)
+                        Login(navController)
                     }
                     composable(Rutas.registro) {
-                        //Registro(navController)
+                        Registro(navController)
                     }
                 }
             }

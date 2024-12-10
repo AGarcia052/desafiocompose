@@ -1,6 +1,7 @@
 package com.alejandro.minidesafiocompose.loginyregistro
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,6 +38,9 @@ import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
 
 @Composable
 fun Login(nav: NavController) {
+
+    val viewModel = remember { LoginRegistroViewModel() }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -68,13 +72,57 @@ fun Login(nav: NavController) {
             Spacer(Modifier.height(40.dp))
 
             Column{
-                Loguearse(nav)
+                Loguearse(nav,viewModel)
             }
 
         }
     }
 }
 
+@Composable
+fun Loguearse(nav: NavController, viewModel: LoginRegistroViewModel) {
+
+    val context = LocalContext.current
+
+    var correo by remember { mutableStateOf("") }
+    var passwd by remember { mutableStateOf("") }
+    val usuario = viewModel.usuario
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        TextField(
+            value = correo,
+            onValueChange = { correo = it },
+            label = { Text("Correo") },
+        )
+        Spacer(Modifier.height(100.dp))
+        TextField(
+            value = passwd,
+            onValueChange = { passwd = it },
+            label = { Text("Contraseña") },
+        )
+        Spacer(Modifier.height(100.dp))
+        Button(onClick = { viewModel.obtenerUsuario(correo) }) {
+            Text(text = "Iniciar sesion")
+        }
+        usuario.value?.let {
+            if (it.passwd == passwd){
+                Log.i("Alejandro","OBSERVADO: LOGIN CORRECTO")
+            }
+            else{
+                Toast.makeText(context, "El correo o la contraseña no es correcta", Toast.LENGTH_SHORT).show()
+                Log.i("Alejandro","OBSERVADO: LOGIN INCORRECTO")
+            }
+        }
+
+
+
+    }
+
+}
 @Composable
 fun Registrarse(nav: NavController) {
     Column(
@@ -96,53 +144,6 @@ fun Registrarse(nav: NavController) {
 
 
     }
-}
-
-@Composable
-fun Loguearse(nav: NavController) {
-
-    var correo by remember { mutableStateOf("") }
-    var passwd by remember { mutableStateOf("") }
-
-
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        TextField(
-            value = correo,
-            onValueChange = { correo = it },
-            label = { Text("Correo") },
-        )
-        Spacer(Modifier.height(100.dp))
-        TextField(
-            value = passwd,
-            onValueChange = { passwd = it },
-            label = { Text("Contraseña") },
-        )
-        Spacer(Modifier.height(100.dp))
-        Button(onClick = { iniciarSesion(correo, passwd)}) {
-            Text(text = "Iniciar sesion")
-        }
-
-    }
-
-}
-
-private fun iniciarSesion(correo: String, passwd: String) {
-    val viewModel = LoginRegistroViewModel()
-    var usuarios = viewModel.resLogin
-
-    viewModel.login(correo, passwd)
-
-    if (usuarios.value != null) {
-        if (passwd == usuarios.value!!.passwd){
-            Log.i("Alejandro","INICIO DE SESION CORRECTO")
-            // NAVEGAR JUEGO
-        }
-    }
-
 }
 
 @Preview(showBackground = true)
