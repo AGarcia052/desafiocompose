@@ -68,7 +68,7 @@ fun Login(nav: NavController) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Spacer(Modifier.height(10.dp))
-            Registrarse(nav)
+            IniciarRegistro(nav)
             Spacer(Modifier.height(40.dp))
 
             Column{
@@ -124,7 +124,7 @@ fun Loguearse(nav: NavController, viewModel: LoginRegistroViewModel) {
 
 }
 @Composable
-fun Registrarse(nav: NavController) {
+fun IniciarRegistro(nav: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -149,7 +149,7 @@ fun Registrarse(nav: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun LoginPreview() {
-    MinidesafioComposeTheme {
-        Login(nav = NavController(context = LocalContext.current))
-    }
+
+    Login(nav = NavController(context = LocalContext.current))
+
 }
