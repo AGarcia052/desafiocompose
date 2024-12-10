@@ -18,10 +18,10 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = Rutas.login) {
                     composable(Rutas.login) {
-                        Login(navController)
+                        //Login(navController)
                     }
                     composable(Rutas.registro) {
-                        Registro(navController)
+                        //Registro(navController)
                     }
                 }
             }
