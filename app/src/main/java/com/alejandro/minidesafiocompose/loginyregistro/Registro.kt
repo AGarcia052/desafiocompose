@@ -1,6 +1,6 @@
 package com.alejandro.minidesafiocompose.loginyregistro
 
-import android.util.Log
+
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
+import com.alejandro.minidesafiocompose.modelo.Usuario
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,22 +65,22 @@ fun Registro(nav: NavController){
         ) {
             Spacer(Modifier.height(10.dp))
 
-            Registrar(nav)
+            Registrar(nav,viewModel)
 
         }
     }
 
 }
 @Composable
-fun Registrar(nav: NavController){
+fun Registrar(nav: NavController,viewModel: LoginRegistroViewModel){
     val context = LocalContext.current
 
     var correo by remember { mutableStateOf("") }
     var passwd by remember { mutableStateOf("") }
     var nombre by remember { mutableStateOf("") }
     var edad by remember { mutableStateOf("") }
+    val comprobar = viewModel.comprobarCorreo
 
-    //val usuario = viewModel.usuario
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -88,20 +88,20 @@ fun Registrar(nav: NavController){
         modifier = Modifier.fillMaxWidth()
     ) {
         TextField(
-            value = correo,
-            onValueChange = { correo = it },
+            value = nombre,
+            onValueChange = { nombre = it },
             label = { Text("Nombre") },
         )
         Spacer(Modifier.height(100.dp))
         TextField(
-            value = passwd,
-            onValueChange = { passwd = it },
+            value = edad,
+            onValueChange = { edad = it },
             label = { Text("Edad") },
         )
         Spacer(Modifier.height(100.dp))
         TextField(
-            value = passwd,
-            onValueChange = { passwd = it },
+            value = correo,
+            onValueChange = { correo = it },
             label = { Text("Correo") },
         )
         Spacer(Modifier.height(100.dp))
@@ -113,7 +113,15 @@ fun Registrar(nav: NavController){
         Spacer(Modifier.height(100.dp))
 
         Row(){
-            Button(onClick = {  }) {
+            Button(onClick = {
+                viewModel.comprobarCorreo(correo)
+                if(comprobar.value){
+                    Toast.makeText(context, "El correo ya esta en uso", Toast.LENGTH_SHORT).show()
+                }else{
+                    viewModel.registrarUsuario(Usuario(nombre,correo,edad.toInt(),passwd),context)
+                }
+
+            }) {
                 Text(text = "Aceptar")
             }
 
@@ -126,6 +134,7 @@ fun Registrar(nav: NavController){
 
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
