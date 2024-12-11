@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -35,6 +36,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -95,6 +98,7 @@ fun Registrar(nav: NavController, viewModel: LoginRegistroViewModel) {
     var edad by remember { mutableStateOf("") }
     val comprobar = viewModel.comprobarCorreo
     var showDatePicker by remember{ mutableStateOf(false)}
+    var passwdVisible by remember { mutableStateOf(false) }
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -149,22 +153,31 @@ fun Registrar(nav: NavController, viewModel: LoginRegistroViewModel) {
             value = passwd,
             onValueChange = { passwd = it },
             label = { Text("Contraseña") },
+            visualTransformation = if (passwdVisible){
+                VisualTransformation.None} else {PasswordVisualTransformation()},
+            trailingIcon = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_passwd_oculta),
+                    contentDescription = "Contraseña",
+                    modifier = Modifier.clickable { passwdVisible = !passwdVisible }
+                )}
         )
         Spacer(Modifier.height(100.dp))
 
         Row() {
             Button(onClick = {
-                viewModel.comprobarCorreo(correo)
-                if (comprobar.value) {
-                    Toast.makeText(context, "El correo ya esta en uso", Toast.LENGTH_SHORT).show()
-                } else {
-                    viewModel.registrarUsuario(
-                        Usuario(nombre, correo, edad.toInt(), passwd),
-                        context
-                    )
-                    nav.navigate("Login")
+                if (comprobarDatos(correo, passwd, nombre, context)){
+                    viewModel.comprobarCorreo(correo)
+                    if (comprobar.value) {
+                        Toast.makeText(context, "El correo ya esta en uso", Toast.LENGTH_SHORT).show()
+                    } else {
+                        viewModel.registrarUsuario(
+                            Usuario(nombre, correo, edad.toInt(), passwd),
+                            context
+                        )
+                        nav.navigate("Login")
+                    }
                 }
-
             }) {
                 Text(text = "Aceptar")
             }
@@ -177,6 +190,27 @@ fun Registrar(nav: NavController, viewModel: LoginRegistroViewModel) {
         }
 
     }
+}
+
+
+
+private fun comprobarDatos(correo: String, passwd: String, nombre: String, context: Context):Boolean{
+    var valido = true
+    val correoRegex = Regex("^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+    if (correo.isEmpty() || passwd.isEmpty() || nombre.isEmpty()){
+        Toast.makeText(context, "Rellena todos los campos para continuar", Toast.LENGTH_SHORT).show()
+        valido = false
+    }
+    else if (!correoRegex.matches(correo)){
+        Toast.makeText(context, "El correo no tiene un formato valido", Toast.LENGTH_LONG).show()
+        valido = false
+    }
+    else if (passwd.length < 6){
+        Toast.makeText(context, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
+        valido = false
+    }
+    return valido
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
