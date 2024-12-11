@@ -84,8 +84,8 @@ fun Loguearse(nav: NavController, viewModel: LoginRegistroViewModel) {
 
     val context = LocalContext.current
 
-    var correo by remember { mutableStateOf("") }
-    var passwd by remember { mutableStateOf("") }
+    var correo by remember { mutableStateOf("prueba@prueba.com") }
+    var passwd by remember { mutableStateOf("1234") }
     val usuario = viewModel.usuario
 
     Column(

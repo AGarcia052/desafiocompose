@@ -32,8 +32,8 @@ class HistorialViewModel: ViewModel() {
                     try{
                         Partida(
                             correoUsuario = documento.getString("usuario").orEmpty(),
-                            puntosMaquina = (documento.get("puntos_maquina") as? Long)?.toInt() ?: -1,
-                            puntosUsuario = (documento.get("puntos_usuario") as? Long)?.toInt() ?: -1,
+                            puntosMaquina = (documento.getLong("puntos_maquina"))?.toInt() ?: -1,
+                            puntosUsuario = (documento.getLong("puntos_usuario"))?.toInt() ?: -1,
                             estado = Estado.GANADA
                         )
                     }catch (e: Exception){
@@ -50,6 +50,7 @@ class HistorialViewModel: ViewModel() {
 
             }
     }
+
     fun obtenerPartidasPerdidas(correo: String){
 
         db.collection(Colecciones.partidas)
@@ -70,8 +71,8 @@ class HistorialViewModel: ViewModel() {
                         null
                     }
                 }
-                _partidasGanadas.clear()
-                _partidasGanadas.addAll(partidas)
+                _partidasPerdidas.clear()
+                _partidasPerdidas.addAll(partidas)
                 Log.i(TAG,"Datos obtenidos: $partidas")
             }
             .addOnFailureListener {
