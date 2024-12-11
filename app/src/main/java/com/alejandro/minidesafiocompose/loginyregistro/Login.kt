@@ -111,6 +111,8 @@ fun Loguearse(nav: NavController, viewModel: LoginRegistroViewModel) {
         usuario.value?.let {
             if (it.passwd == passwd){
                 Log.i("Alejandro","OBSERVADO: LOGIN CORRECTO")
+                nav.navigate(Rutas.juego)
+                usuario.value = null
             }
             else{
                 Toast.makeText(context, "El correo o la contraseña no es correcta", Toast.LENGTH_SHORT).show()
