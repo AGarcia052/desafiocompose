@@ -7,6 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.alejandro.minidesafiocompose.juego.Historial
+import com.alejandro.minidesafiocompose.juego.Informacion
+import com.alejandro.minidesafiocompose.juego.Jugar
 import com.alejandro.minidesafiocompose.loginyregistro.Login
 import com.alejandro.minidesafiocompose.loginyregistro.Registro
 import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
@@ -25,6 +28,16 @@ class MainActivity : ComponentActivity() {
                     composable(Rutas.registro) {
                         Registro(navController)
                     }
+                    composable(Rutas.jugar) {
+                        Jugar(navController)
+                    }
+                    composable(Rutas.informacion) {
+                        Informacion(navController)
+                    }
+                    composable(Rutas.historial) {
+                        Historial(navController)
+                    }
+
                 }
             }
         }
