@@ -111,7 +111,7 @@ fun Loguearse(nav: NavController, viewModel: LoginRegistroViewModel) {
         usuario.value?.let {
             if (it.passwd == passwd){
                 Log.i("Alejandro","OBSERVADO: LOGIN CORRECTO")
-                nav.navigate(Rutas.juego)
+                nav.navigate("Juego/${it.correo}")
                 usuario.value = null
             }
             else{

@@ -29,8 +29,9 @@ class MainActivity : ComponentActivity() {
                     composable(Rutas.registro) {
                         Registro(navController)
                     }
-                    composable(Rutas.juego) {
-                        Juego()
+                    composable("Juego/{correo}") { backStackEntry ->
+                        val correo = backStackEntry.arguments?.getString("correo") ?: ""
+                        Juego(correo)
                     }
 
                 }

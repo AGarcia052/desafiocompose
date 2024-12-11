@@ -1,31 +1,39 @@
 package com.alejandro.minidesafiocompose.juego.componentes
-
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import com.alejandro.minidesafiocompose.juego.BottomBarJuego
-import com.alejandro.minidesafiocompose.juego.TopBarJuego
-import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
 
 @Composable
-fun Jugar(){
-    MinidesafioComposeTheme {
+fun Jugar(correo: String) {
 
-        Text("JUGAR")
+    var jugar by remember { mutableStateOf(false) }
 
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Button(onClick = {jugar = true}, shape = ButtonDefaults.elevatedShape) {
+            Text(text = "COMENZAR PARTIDA")
+        }
     }
-
 }
 
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewJugar(){
-    Jugar()
+fun PreviewJugar() {
+    Jugar("")
 }

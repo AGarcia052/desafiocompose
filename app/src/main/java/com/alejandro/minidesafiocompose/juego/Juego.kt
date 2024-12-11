@@ -27,8 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.alejandro.minidesafiocompose.Rutas
 import com.alejandro.minidesafiocompose.juego.componentes.Historial
 import com.alejandro.minidesafiocompose.juego.componentes.Informacion
 import com.alejandro.minidesafiocompose.juego.componentes.Jugar
@@ -36,11 +34,9 @@ import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
 
 
 @Composable
-fun Juego() {
+fun Juego(correo: String) {
     MinidesafioComposeTheme {
-
         var tab by remember { mutableStateOf(2) }
-
         Scaffold(
             topBar = {
                 TopBarJuego()
@@ -65,13 +61,11 @@ fun Juego() {
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 when (tab) {
-                    1 -> Informacion()
-                    2 -> Jugar()
-                    3 -> Historial()
+                    1 -> Informacion(correo)
+                    2 -> Jugar(correo)
+                    3 -> Historial(correo)
                 }
             }
-
-
         }
     }
 }
@@ -131,5 +125,5 @@ fun TopBarJuego() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewJuego() {
-    Juego()
+    Juego("")
 }
