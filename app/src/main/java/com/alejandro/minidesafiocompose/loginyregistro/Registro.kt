@@ -1,7 +1,9 @@
 package com.alejandro.minidesafiocompose.loginyregistro
 
 
+import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,13 +13,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,16 +34,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.alejandro.minidesafiocompose.R
 import com.alejandro.minidesafiocompose.modelo.Usuario
+import java.util.Calendar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Registro(nav: NavController){
-        val viewModel = remember { LoginRegistroViewModel() }
+fun Registro(nav: NavController) {
+    val viewModel = remember { LoginRegistroViewModel() }
 
     Scaffold(
         topBar = {
@@ -48,7 +59,9 @@ fun Registro(nav: NavController){
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxWidth().padding(end = 10.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 10.dp)
                     ) {
                         Text("Registro")
 
@@ -65,14 +78,15 @@ fun Registro(nav: NavController){
         ) {
             Spacer(Modifier.height(10.dp))
 
-            Registrar(nav,viewModel)
+            Registrar(nav, viewModel)
 
         }
     }
 
 }
+
 @Composable
-fun Registrar(nav: NavController,viewModel: LoginRegistroViewModel){
+fun Registrar(nav: NavController, viewModel: LoginRegistroViewModel) {
     val context = LocalContext.current
 
     var correo by remember { mutableStateOf("") }
@@ -80,7 +94,7 @@ fun Registrar(nav: NavController,viewModel: LoginRegistroViewModel){
     var nombre by remember { mutableStateOf("") }
     var edad by remember { mutableStateOf("") }
     val comprobar = viewModel.comprobarCorreo
-
+    var showDatePicker by remember{ mutableStateOf(false)}
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -95,9 +109,35 @@ fun Registrar(nav: NavController,viewModel: LoginRegistroViewModel){
         Spacer(Modifier.height(100.dp))
         TextField(
             value = edad,
-            onValueChange = { edad = it },
+            onValueChange = {  },
             label = { Text("Edad") },
+            readOnly = true,
+            trailingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_calendario),
+                    contentDescription = "Seleccionar edad",
+                    modifier = Modifier.clickable { showDatePicker = true }
+                )
+            },
         )
+        if (showDatePicker) {
+
+            DatePickerModalInput(
+                onDateSelected = { selectedDateMillis ->
+                    selectedDateMillis?.let {
+                        val calendar = Calendar.getInstance()
+                        calendar.timeInMillis = it
+                        val anio = calendar.get(Calendar.YEAR)
+                        val anioActual = Calendar.getInstance().get(Calendar.YEAR)
+                        edad = (anioActual - anio).toString()
+                    }
+                    showDatePicker = false
+                },
+                onDismiss = { showDatePicker = false },
+                context = LocalContext.current
+            )
+
+        }
         Spacer(Modifier.height(100.dp))
         TextField(
             value = correo,
@@ -112,13 +152,17 @@ fun Registrar(nav: NavController,viewModel: LoginRegistroViewModel){
         )
         Spacer(Modifier.height(100.dp))
 
-        Row(){
+        Row() {
             Button(onClick = {
                 viewModel.comprobarCorreo(correo)
-                if(comprobar.value){
+                if (comprobar.value) {
                     Toast.makeText(context, "El correo ya esta en uso", Toast.LENGTH_SHORT).show()
-                }else{
-                    viewModel.registrarUsuario(Usuario(nombre,correo,edad.toInt(),passwd),context)
+                } else {
+                    viewModel.registrarUsuario(
+                        Usuario(nombre, correo, edad.toInt(), passwd),
+                        context
+                    )
+                    nav.navigate("Login")
                 }
 
             }) {
@@ -126,7 +170,7 @@ fun Registrar(nav: NavController,viewModel: LoginRegistroViewModel){
             }
 
             Spacer(modifier = Modifier.width(50.dp))
-            Button(onClick = {  nav.navigate("Login") }) {
+            Button(onClick = { nav.navigate("Login") }) {
                 Text(text = "Cancelar")
             }
 
@@ -135,9 +179,50 @@ fun Registrar(nav: NavController,viewModel: LoginRegistroViewModel){
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePickerModalInput(
+    onDateSelected: (Long?) -> Unit,
+    onDismiss: () -> Unit,
+    context: Context
+) {
+
+
+    val datePickerState = rememberDatePickerState (initialDisplayMode = DisplayMode.Input)
+
+    DatePickerDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = {
+                val dateMillis = datePickerState.selectedDateMillis
+                val fechaSeleccionada = Calendar.getInstance()
+                fechaSeleccionada.timeInMillis = dateMillis!!
+                var fechaActual = Calendar.getInstance()
+                fechaActual = fechaActual.apply { timeInMillis = System.currentTimeMillis() }
+                fechaActual.add(Calendar.YEAR, -18)
+                if (fechaSeleccionada.before(fechaActual)){
+                    onDateSelected(dateMillis)
+                }
+                else{
+                    Toast.makeText(context, "Debes ser mayor de edad", Toast.LENGTH_SHORT).show()
+                }
+            }) {
+                Text("Aceptar")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancelar")
+            }
+        }
+    ) {
+        DatePicker(state = datePickerState)
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewRegistro(){
-        Registro(nav = NavController(context = LocalContext.current))
+fun PreviewRegistro() {
+    Registro(nav = NavController(context = LocalContext.current))
 }
