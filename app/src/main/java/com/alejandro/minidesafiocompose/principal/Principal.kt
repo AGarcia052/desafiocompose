@@ -1,4 +1,4 @@
-package com.alejandro.minidesafiocompose.principal.juego
+package com.alejandro.minidesafiocompose.principal
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -28,8 +29,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alejandro.minidesafiocompose.componentes.TextoNormal
 import com.alejandro.minidesafiocompose.componentes.Titulo
-import com.alejandro.minidesafiocompose.principal.Historial
-import com.alejandro.minidesafiocompose.principal.Informacion
+import com.alejandro.minidesafiocompose.principal.historial.Historial
+import com.alejandro.minidesafiocompose.principal.informacion.Informacion
+import com.alejandro.minidesafiocompose.principal.juego.Jugar
 import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
 
 
@@ -74,34 +76,58 @@ fun Juego(correo: String) {
 @Composable
 fun BottomBarJuego(onAccion: (Int) -> Unit) {
 
+    var seleccionado by remember { mutableStateOf(2) }
+
     BottomAppBar(
         actions = {
 
             Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 7.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 7.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(start = 30.dp)) {
-                    IconButton(onClick = { onAccion(1) }) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(start = 30.dp)
+                ) {
+                    IconButton(onClick = {
+                        onAccion(1)
+                        seleccionado = 1
+                    }) {
                         Icon(Icons.Filled.Info, contentDescription = "Perfil")
                     }
-                    TextoNormal("Perfil")
+                    Text(
+                        "Perfil",
+                        color = if (seleccionado == 1) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.primary
+                    )
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    IconButton(onClick = { onAccion(2) }) {
+                    IconButton(onClick = {
+                        onAccion(2)
+                        seleccionado = 2
+                    }) {
                         Icon(Icons.Filled.PlayArrow, contentDescription = "Jugar")
                     }
-                    TextoNormal("Jugar")
+                    Text(
+                        "Jugar",
+                        color = if (seleccionado == 2) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.primary
+                    )
                 }
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(end = 30.dp)
                 ) {
-                    IconButton(onClick = { onAccion(3) }) {
+                    IconButton(onClick = {
+                        onAccion(3)
+                        seleccionado = 3
+                    }) {
                         Icon(Icons.Filled.Refresh, contentDescription = "Historial")
                     }
-                    TextoNormal("Historial")
+                    Text(
+                        "Historial",
+                        color = if (seleccionado == 3) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.primary
+                    )
                 }
 
             }

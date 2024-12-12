@@ -1,4 +1,4 @@
-package com.alejandro.minidesafiocompose.principal
+package com.alejandro.minidesafiocompose.principal.historial
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf

@@ -1,4 +1,4 @@
-package com.alejandro.minidesafiocompose.principal
+package com.alejandro.minidesafiocompose.principal.informacion
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
