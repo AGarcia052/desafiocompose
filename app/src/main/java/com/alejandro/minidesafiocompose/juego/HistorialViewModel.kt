@@ -11,8 +11,8 @@ import com.google.firebase.firestore.firestore
 
 class HistorialViewModel: ViewModel() {
 
-    val db = Firebase.firestore
-    val TAG = "HISTORIALVW"
+    private val db = Firebase.firestore
+    private val TAG = "HISTORIALVW"
 
     private val _partidasGanadas = mutableStateListOf<Partida>()
     val partidasGanadas: List<Partida> get() = _partidasGanadas
