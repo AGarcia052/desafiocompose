@@ -1,4 +1,4 @@
-package com.alejandro.minidesafiocompose.juego.componentes
+package com.alejandro.minidesafiocompose.componentes
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text

@@ -1,4 +1,4 @@
-package com.alejandro.minidesafiocompose.juego
+package com.alejandro.minidesafiocompose.principal
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -13,10 +13,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,8 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.alejandro.minidesafiocompose.juego.componentes.Subtitulo
-import com.alejandro.minidesafiocompose.juego.componentes.TextoNormal
+import com.alejandro.minidesafiocompose.componentes.Subtitulo
+import com.alejandro.minidesafiocompose.componentes.TextoNormal
 import com.alejandro.minidesafiocompose.modelo.Dificultad
 import com.alejandro.minidesafiocompose.modelo.Partida
 import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
@@ -43,9 +41,12 @@ fun Historial(correo: String) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp)
+                    .height(100.dp),
+                verticalAlignment = Alignment.CenterVertically
             )
             {
+                Subtitulo("Filtrar por:")
+                Spacer(modifier = Modifier.width(6.dp))
                 ganadas = radioButtons()
             }
 
@@ -128,13 +129,13 @@ fun radioButtons(): Boolean {
     ) {
         RadioButton(selected = ganadas, onClick = { ganadas = true }
         )
-        Text(text = "Ganadas")
+        TextoNormal("Ganadas")
 
-        Spacer(Modifier.width(50.dp))
+        Spacer(Modifier.width(27.dp))
 
         RadioButton(selected = !ganadas, onClick = { ganadas = false }
         )
-        Text(text = "Perdidas")
+        TextoNormal("Perdidas")
     }
     return ganadas
 }

@@ -1,4 +1,4 @@
-package com.alejandro.minidesafiocompose.juego
+package com.alejandro.minidesafiocompose.principal.juego
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

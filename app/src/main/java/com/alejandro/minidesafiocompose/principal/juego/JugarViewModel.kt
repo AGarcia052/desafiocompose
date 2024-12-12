@@ -1,4 +1,4 @@
-package com.alejandro.minidesafiocompose.juego
+package com.alejandro.minidesafiocompose.principal.juego
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf

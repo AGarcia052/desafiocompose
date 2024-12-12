@@ -1,4 +1,4 @@
-package com.alejandro.minidesafiocompose.juego
+package com.alejandro.minidesafiocompose.principal
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,9 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.alejandro.minidesafiocompose.juego.componentes.Subtitulo
-import com.alejandro.minidesafiocompose.juego.componentes.TextoNormal
-import com.alejandro.minidesafiocompose.juego.componentes.Titulo
+import com.alejandro.minidesafiocompose.componentes.Subtitulo
+import com.alejandro.minidesafiocompose.componentes.TextoNormal
+import com.alejandro.minidesafiocompose.componentes.Titulo
 import com.alejandro.minidesafiocompose.modelo.Usuario
 
 @Composable
