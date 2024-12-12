@@ -31,10 +31,11 @@ class HistorialViewModel: ViewModel() {
                 val partidas = resultado.documents.mapNotNull { documento ->
                     try{
                         Partida(
-                            correoUsuario = documento.getString("usuario").orEmpty(),
-                            puntosMaquina = (documento.getLong("puntos_maquina"))?.toInt() ?: -1,
-                            puntosUsuario = (documento.getLong("puntos_usuario"))?.toInt() ?: -1,
-                            estado = Estado.GANADA
+                            usuario = documento.getString("usuario").orEmpty(),
+                            puntosMaquina = (documento.getLong("puntosMaquina"))?.toInt() ?: -1,
+                            puntosUsuario = (documento.getLong("puntosUsuario"))?.toInt() ?: -1,
+                            estado = Estado.GANADA.valor,
+                            dificultad = (documento.getLong("dificultad"))?.toFloat() ?: -1f
                         )
                     }catch (e: Exception){
                         Log.e(TAG, "Error parsing document: ${documento.id}", e)
@@ -61,11 +62,11 @@ class HistorialViewModel: ViewModel() {
                 val partidas = resultado.documents.mapNotNull { documento ->
                     try{
                         Partida(
-                            correoUsuario = documento.getString("usuario").orEmpty(),
-                            puntosMaquina = (documento.get("puntos_maquina") as? Long)?.toInt() ?: -1,
-                            puntosUsuario = (documento.get("puntos_usuario") as? Long)?.toInt() ?: -1,
-                            estado = Estado.PERDIDA
-                        )
+                            usuario = documento.getString("usuario").orEmpty(),
+                            puntosMaquina = (documento.get("puntosMaquina") as? Long)?.toInt() ?: -1,
+                            puntosUsuario = (documento.get("puntosUsuario") as? Long)?.toInt() ?: -1,
+                            estado = Estado.PERDIDA.valor,
+                            dificultad = (documento.getLong("dificultad"))?.toFloat() ?: -1f                        )
                     }catch (e: Exception){
                         Log.e(TAG, "Error parsing document: ${documento.id}", e)
                         null

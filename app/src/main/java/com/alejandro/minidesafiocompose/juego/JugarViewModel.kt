@@ -1,11 +1,19 @@
 package com.alejandro.minidesafiocompose.juego
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.alejandro.minidesafiocompose.Colecciones
 import com.alejandro.minidesafiocompose.modelo.Dificultad
+import com.alejandro.minidesafiocompose.modelo.Partida
 import com.alejandro.minidesafiocompose.modelo.Tirada
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 
 class JugarViewModel: ViewModel() {
+
+    val db = Firebase.firestore
+    val TAG = "JUGARVW"
 
     private val _tiradaMaquina = mutableStateOf<Tirada?>(null)
     val tiradaMaquina get() = _tiradaMaquina
@@ -79,6 +87,18 @@ class JugarViewModel: ViewModel() {
                 }
             }
         }
+    }
+
+    fun guardarPartida(partida: Partida){
+        db.collection(Colecciones.partidas)
+            .document()
+            .set(partida)
+            .addOnSuccessListener {
+                Log.d(TAG, "Partida guardada")
+            }
+            .addOnFailureListener {
+                Log.e(TAG, "Error al guardar partida")
+            }
     }
 
     fun reiniciarTirada(){

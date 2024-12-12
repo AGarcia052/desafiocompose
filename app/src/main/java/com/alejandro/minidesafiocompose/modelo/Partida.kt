@@ -1,3 +1,3 @@
 package com.alejandro.minidesafiocompose.modelo
 
-data class Partida(val correoUsuario: String, val estado: Estado, val puntosMaquina : Int, val puntosUsuario : Int, val dificultad: Float)
+data class Partida(val usuario: String, val estado: Int, val puntosMaquina : Int, val puntosUsuario : Int, val dificultad: Float)
