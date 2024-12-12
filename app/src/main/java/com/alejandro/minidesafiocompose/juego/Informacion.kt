@@ -1,4 +1,4 @@
-package com.alejandro.minidesafiocompose.juego.componentes
+package com.alejandro.minidesafiocompose.juego
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,16 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.alejandro.minidesafiocompose.juego.InformacionViewModel
-import com.alejandro.minidesafiocompose.modelo.Estado
+import com.alejandro.minidesafiocompose.juego.componentes.Subtitulo
+import com.alejandro.minidesafiocompose.juego.componentes.TextoNormal
+import com.alejandro.minidesafiocompose.juego.componentes.Titulo
 import com.alejandro.minidesafiocompose.modelo.Usuario
 
 @Composable
@@ -33,11 +32,11 @@ fun Informacion(correoUsuario: String) {
         viewModel.obtenerSumPartidasGanadas(correoUsuario)
         viewModel.obtenerSumPartidasJugadas(correoUsuario)
     } else {
-        Column(modifier = Modifier.fillMaxSize().padding(top = 50.dp), verticalArrangement = Arrangement.Center) {
+        Column(modifier = Modifier.fillMaxSize().padding(top = 50.dp)) {
 
             DatosUsuario(usuario.value!!)
-            Text("Partidas ganadas: ${partidasGanadas.value}")
-            Text("Partidas jugadas: ${partidasJugadas.value}")
+            EstadisticasUsuario(partidasJugadas.value,partidasGanadas.value)
+
         }
     }
 }
@@ -51,26 +50,20 @@ fun DatosUsuario(usuario: Usuario) {
     Spacer(modifier = Modifier.height(35.dp))
     Column(modifier = Modifier.padding(start = 25.dp).fillMaxWidth()){
         Row(
-            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            TituloDatos("Nombre: ")
-            ValorDatos(usuario.nombre)
+            Subtitulo("Nombre: ")
+            TextoNormal(usuario.nombre)
         }
         Spacer(modifier = Modifier.height(30.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            TituloDatos("Edad: ")
-            ValorDatos(usuario.edad.toString())
+            Subtitulo("Edad: ")
+            TextoNormal(usuario.edad.toString())
         }
         Spacer(modifier = Modifier.height(30.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            TituloDatos("Correo: ")
-            ValorDatos(usuario.correo)
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            TituloDatos("Contraseña: ")
-            ValorDatos(usuario.passwd)
+            Subtitulo("Correo: ")
+            TextoNormal(usuario.correo)
         }
     }
 
@@ -87,33 +80,20 @@ fun EstadisticasUsuario(partidasJugadas: Int, partidasGanadas: Int){
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            TituloDatos("Partidas Jugadas: ")
-            ValorDatos(partidasJugadas.toString())
+            Subtitulo("Partidas Jugadas: ")
+            TextoNormal(partidasJugadas.toString())
         }
         Spacer(modifier = Modifier.height(30.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            TituloDatos("Partidas Ganadas: ")
-            ValorDatos(partidasGanadas.toString())
+            Subtitulo("Partidas Ganadas: ")
+            TextoNormal(partidasGanadas.toString())
         }
 
 
     }
 }
 
-@Composable
-fun TituloDatos(texto: String) {
-    Text(text = texto, Modifier.padding(end = 5.dp), fontSize = 22.sp)
-}
 
-@Composable
-fun ValorDatos(texto: String) {
-    Text(text = texto, fontSize = 16.sp)
-}
-
-@Composable
-fun Titulo(texto: String){
-    Text(text = texto, fontSize = 28.sp)
-}
 
 @Preview(showBackground = true)
 @Composable

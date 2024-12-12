@@ -8,9 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.alejandro.minidesafiocompose.juego.Juego
-import com.alejandro.minidesafiocompose.juego.componentes.Historial
-import com.alejandro.minidesafiocompose.juego.componentes.Informacion
-import com.alejandro.minidesafiocompose.juego.componentes.Jugar
 import com.alejandro.minidesafiocompose.loginyregistro.Login
 import com.alejandro.minidesafiocompose.loginyregistro.Registro
 import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme

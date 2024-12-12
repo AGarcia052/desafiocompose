@@ -27,9 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.alejandro.minidesafiocompose.juego.componentes.Historial
-import com.alejandro.minidesafiocompose.juego.componentes.Informacion
-import com.alejandro.minidesafiocompose.juego.componentes.Jugar
+import com.alejandro.minidesafiocompose.juego.componentes.TextoNormal
+import com.alejandro.minidesafiocompose.juego.componentes.Titulo
 import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
 
 
@@ -78,7 +77,7 @@ fun BottomBarJuego(onAccion: (Int) -> Unit) {
         actions = {
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 7.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally,
@@ -86,13 +85,13 @@ fun BottomBarJuego(onAccion: (Int) -> Unit) {
                     IconButton(onClick = { onAccion(1) }) {
                         Icon(Icons.Filled.Info, contentDescription = "Perfil")
                     }
-                    Text(text = "Perfil")
+                    TextoNormal("Perfil")
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     IconButton(onClick = { onAccion(2) }) {
                         Icon(Icons.Filled.PlayArrow, contentDescription = "Jugar")
                     }
-                    Text(text = "Jugar")
+                    TextoNormal("Jugar")
                 }
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,7 +100,7 @@ fun BottomBarJuego(onAccion: (Int) -> Unit) {
                     IconButton(onClick = { onAccion(3) }) {
                         Icon(Icons.Filled.Refresh, contentDescription = "Historial")
                     }
-                    Text(text = "Historial")
+                    TextoNormal("Historial")
                 }
 
             }
@@ -117,7 +116,7 @@ fun TopBarJuego() {
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         title = {
-            Text("Juego")
+            Titulo("JUEGO")
         }
     )
 }

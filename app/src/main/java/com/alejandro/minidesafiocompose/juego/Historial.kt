@@ -1,10 +1,6 @@
-package com.alejandro.minidesafiocompose.juego.componentes
+package com.alejandro.minidesafiocompose.juego
 
-import android.util.Log
-import android.widget.Space
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,8 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -27,15 +23,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.alejandro.minidesafiocompose.juego.HistorialViewModel
+import com.alejandro.minidesafiocompose.juego.componentes.Subtitulo
+import com.alejandro.minidesafiocompose.juego.componentes.TextoNormal
+import com.alejandro.minidesafiocompose.modelo.Dificultad
 import com.alejandro.minidesafiocompose.modelo.Partida
 import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
 
@@ -65,8 +59,8 @@ fun Historial(correo: String) {
 @Composable
 fun RecyclerView(ganadas: Boolean, viewModel: HistorialViewModel, correo: String) {
 
-    var partidasGanadas = viewModel.partidasGanadas
-    var partidasPerdidas = viewModel.partidasPerdidas
+    val partidasGanadas = viewModel.partidasGanadas
+    val partidasPerdidas = viewModel.partidasPerdidas
 
     if (ganadas) {
         viewModel.obtenerPartidasGanadas(correo)
@@ -95,26 +89,30 @@ fun ListaPartidas(p: Partida) {
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 1.dp, bottom = 1.dp, start = 1.dp, end = 1.dp),
-        shape = RectangleShape
+            .padding(top = 1.dp, bottom = 1.dp, start = 3.dp, end = 1.dp),
+        shape = RectangleShape,
     )
     {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+        Column(
+            modifier = Modifier.padding(all= 5.dp).fillMaxWidth()
         ) {
-            Text(text = "Puntos maquina: ")
-            Text(
-                text = p.puntosMaquina.toString(), modifier = Modifier
-                    .padding(2.dp)
-            )
-            Spacer(modifier = Modifier.width(50.dp))
-            Text(text = "Tus puntos: ")
-            Text(
-                text = p.puntosUsuario.toString(),
-                modifier = Modifier
-                    .padding(2.dp)
-            )
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Subtitulo("Dificultad: ")
+                TextoNormal(Dificultad.fromValor(p.dificultad).toString())
+            }
+            Column(modifier = Modifier.padding(start = 20.dp,top = 15.dp)){
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Subtitulo("Tu puntuación: ")
+                    TextoNormal(p.puntosUsuario.toString())
+                }
+                Spacer(modifier = Modifier.height(5.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Subtitulo("Puntuación oponente: ")
+                    TextoNormal(p.puntosMaquina.toString())
+                }
+            }
+
         }
 
     }
@@ -144,5 +142,5 @@ fun radioButtons(): Boolean {
 @Preview(showBackground = true)
 @Composable
 fun PreviewHistorial() {
-    Historial("efe")
+    ListaPartidas(Partida("prueba@prueba.com", 1, 2, 3, 2f))
 }
