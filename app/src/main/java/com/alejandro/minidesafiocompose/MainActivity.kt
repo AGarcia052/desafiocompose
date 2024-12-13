@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.alejandro.minidesafiocompose.principal.Juego
 import com.alejandro.minidesafiocompose.loginyregistro.Login
 import com.alejandro.minidesafiocompose.loginyregistro.Registro
+import com.alejandro.minidesafiocompose.principal.passwd.Passwd
 import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,7 +29,11 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("Juego/{correo}") { backStackEntry ->
                         val correo = backStackEntry.arguments?.getString("correo") ?: ""
-                        Juego(correo)
+                        Juego(correo, navController)
+                    }
+                    composable("Passwd/{correo}") { backStackEntry ->
+                        val correo = backStackEntry.arguments?.getString("correo") ?: ""
+                        Passwd(correo, navController)
                     }
 
                 }
