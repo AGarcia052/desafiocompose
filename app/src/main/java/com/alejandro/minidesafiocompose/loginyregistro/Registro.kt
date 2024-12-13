@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.alejandro.minidesafiocompose.R
+import com.alejandro.minidesafiocompose.componentes.TFPasswd
 import com.alejandro.minidesafiocompose.modelo.Usuario
 import java.util.Calendar
 
@@ -149,19 +150,7 @@ fun Registrar(nav: NavController, viewModel: LoginRegistroViewModel) {
             label = { Text("Correo") },
         )
         Spacer(Modifier.height(100.dp))
-        TextField(
-            value = passwd,
-            onValueChange = { passwd = it },
-            label = { Text("Contraseña") },
-            visualTransformation = if (passwdVisible){
-                VisualTransformation.None} else {PasswordVisualTransformation()},
-            trailingIcon = {
-                Icon(
-                    painter = painterResource(R.drawable.ic_passwd_oculta),
-                    contentDescription = "Contraseña",
-                    modifier = Modifier.clickable { passwdVisible = !passwdVisible }
-                )}
-        )
+        TFPasswd(password = passwd, onPasswordChange = { passwd = it })
         Spacer(Modifier.height(100.dp))
 
         Row() {

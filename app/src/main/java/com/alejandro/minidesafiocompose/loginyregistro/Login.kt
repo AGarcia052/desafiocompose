@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.alejandro.minidesafiocompose.Rutas
+import com.alejandro.minidesafiocompose.componentes.TFPasswd
 import com.alejandro.minidesafiocompose.ui.theme.MinidesafioComposeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,8 +85,8 @@ fun Loguearse(nav: NavController, viewModel: LoginRegistroViewModel) {
 
     val context = LocalContext.current
 
-    var correo by remember { mutableStateOf("prueba@prueba.com") }
-    var passwd by remember { mutableStateOf("1234") }
+    var correo by remember { mutableStateOf("") }
+    var passwd by remember { mutableStateOf("") }
     val usuario = viewModel.usuario
 
     Column(
@@ -99,11 +100,7 @@ fun Loguearse(nav: NavController, viewModel: LoginRegistroViewModel) {
             label = { Text("Correo") },
         )
         Spacer(Modifier.height(100.dp))
-        TextField(
-            value = passwd,
-            onValueChange = { passwd = it },
-            label = { Text("Contraseña") },
-        )
+        TFPasswd(password = passwd, onPasswordChange = { passwd = it })
         Spacer(Modifier.height(100.dp))
         Button(onClick = { viewModel.obtenerUsuario(correo) }) {
             Text(text = "Iniciar sesion")
